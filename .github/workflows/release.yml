@@ -40,3 +40,16 @@ jobs:
           asset_path: ./deb/${{ steps.build.outputs.file }}
           asset_name: ${{ steps.build.outputs.file }}
           asset_content_type: application/vnd.debian.binary-package
+
+      - name: Create Packages.gz
+        run: cd deb && dpkg-scanpackages . | gzip -c > Packages.gz
+
+      - name: Upload Packages.gz
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.get_release.outputs.upload_url }}
+          asset_path: ./deb/Packages.gz
+          asset_name: Packages.gz
+          asset_content_type: application/gzip
