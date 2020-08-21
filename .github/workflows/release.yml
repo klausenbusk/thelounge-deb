@@ -23,7 +23,7 @@ jobs:
         id: build
         run: |
           ./build-package
-          echo "::set-output name=file::$(lbasename deb/*.deb)"
+          echo "::set-output name=file::$(basename deb/*.deb)"
 
       - name: Get release
         id: get_release
